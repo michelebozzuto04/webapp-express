@@ -3,6 +3,8 @@ const app = express();
 const PORT = process.env.PORT;
 const movieRouter = require('./routes/movies');
 
+app.use(express.static('public'));
+
 app.listen(PORT, () => {
     console.log(`Server listening on http://localhost:${PORT}`);
 })
