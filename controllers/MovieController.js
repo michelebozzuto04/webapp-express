@@ -36,7 +36,9 @@ function show(req, res) {
             })
         }
 
-        res.json(result)
+        const movie = result[0];
+
+        res.json(movie);
     })
 }
 

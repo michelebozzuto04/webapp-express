@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT;
 const movieRouter = require('./routes/movies');
+const errorsHandler = require('./middlewares/errorsHandler');
+const notFound = require('./middlewares/notFound');
 
 app.use(express.static('public'));
 
@@ -14,3 +16,6 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/movies', movieRouter);
+
+app.use(errorsHandler);
+app.use(notFound);
