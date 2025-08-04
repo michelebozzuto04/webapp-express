@@ -7,7 +7,7 @@ app.get('/', (req, res) => {
     res.send("Index");
 });
 
-app.use('/movies', MovieRouter);
+app.use('/api/movies', MovieRouter);
 
 app.listen(PORT, () => {
     console.log(`Server listening on http://localhost:${PORT}`);
