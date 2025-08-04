@@ -38,7 +38,19 @@ function show(req, res) {
 
         const movie = result[0];
 
-        res.json(movie);
+        const reviews_sql = 'SELECT id, name, vote, text, created_at  FROM reviews WHERE movie_id=?'
+
+        connection.execute(reviews_sql, [id], (err, result) => {
+            if (err) return res.status(500).json({
+                error: true,
+                message: err.message
+            })
+
+            const movieReviews = result;
+            movie.reviews = movieReviews;
+
+            res.json(movie);
+        })
     })
 }
 
