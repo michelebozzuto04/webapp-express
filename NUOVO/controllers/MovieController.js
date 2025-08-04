@@ -19,11 +19,43 @@ function index(req, res) {
 
 function show(req, res) {
 
-    const id = req.params.id;
+    const { id } = req.params;
+    const sql = "SELECT * FROM movies WHERE id = ?"
 
-    return (
-        res.send(`${id}`)
-    )
+    connection.execute(sql, [id], (error, result) => {
+
+        if (error) return (
+            res.status(500).json({
+                error: true,
+                message: error.message
+            })
+        )
+
+        if (result.length === 0) {
+            res.status(404).json({
+                error: true,
+                message: 'Not found'
+            })
+        }
+
+        const movie = result[0]
+
+        const movie_review_sql = `SELECT * FROM reviews WHERE movie_id = ?`
+
+        connection.execute(movie_review_sql, [id], (error, result) => {
+            if (error) return (
+                res.status(500).json({
+                    error: true,
+                    message: error.message
+                })
+            )
+
+            const movieReviews = result;
+            movie.reviews = movieReviews;
+
+            res.json(movie)
+        })
+    })
 };
 
 module.exports = { index, show };
